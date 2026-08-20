@@ -30,8 +30,7 @@ export default defineConfig({
 			],
 			head: [{ tag: 'script', attrs: { type: 'module' }, content: mermaidScript }],
 			components: {
-				SiteTitle: './src/components/SiteTitle.astro',
-				ThemeSelect: './src/components/ThemeSelect.astro',
+				Header: './src/components/Header.astro',
 			},
 			customCss: [
 				'@fontsource-variable/ibm-plex-sans',

@@ -1,0 +1,210 @@
+---
+import logo from '../assets/logo.png';
+import Search from 'virtual:starlight/components/Search';
+import config from 'virtual:starlight/user-config';
+
+const { siteTitleHref } = Astro.locals.starlightRoute;
+const shouldRenderSearch =
+	config.pagefind || config.components.Search !== '@astrojs/starlight/components/Search.astro';
+---
+
+<div class="mimir-header">
+	<!-- Left: Brand -->
+	<div class="header-brand">
+		<a href={siteTitleHref} class="mimir-brand-link" aria-label="Mimir documentation home">
+			<img
+				src={logo.src}
+				alt="Mimir"
+				class="mimir-logo-img"
+				loading="eager"
+				decoding="sync"
+			/>
+		</a>
+	</div>
+
+	<!-- Center: Search Trigger -->
+	<div class="header-search print:hidden">
+		{shouldRenderSearch && <Search />}
+	</div>
+
+	<!-- Right: GitHub + Theme Toggle -->
+	<div class="header-actions print:hidden">
+		<a
+			href="https://github.com/cloudboy-jh/Mimir"
+			target="_blank"
+			rel="noopener noreferrer"
+			class="action-btn"
+			aria-label="GitHub repository"
+			title="GitHub repository"
+		>
+			<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+				<path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"></path>
+			</svg>
+		</a>
+
+		<theme-toggle class="theme-toggle">
+			<button
+				type="button"
+				class="action-btn theme-toggle-btn"
+				aria-label="Toggle color theme"
+				title="Toggle light / dark theme"
+			>
+				<!-- Lucide Sun (active in dark mode) -->
+				<svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<circle cx="12" cy="12" r="4"></circle>
+					<path d="M12 2v2"></path>
+					<path d="M12 20v2"></path>
+					<path d="m4.93 4.93 1.41 1.41"></path>
+					<path d="m17.66 17.66 1.41 1.41"></path>
+					<path d="M2 12h2"></path>
+					<path d="M20 12h2"></path>
+					<path d="m6.34 17.66-1.41 1.41"></path>
+					<path d="m19.07 4.93-1.41 1.41"></path>
+				</svg>
+				<!-- Lucide Moon (active in light mode) -->
+				<svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+				</svg>
+			</button>
+		</theme-toggle>
+	</div>
+</div>
+
+<script>
+	class ThemeToggle extends HTMLElement {
+		constructor() {
+			super();
+			const btn = this.querySelector('button');
+			if (!btn) return;
+
+			const getStoredTheme = (): 'light' | 'dark' => {
+				if (typeof localStorage !== 'undefined') {
+					const stored = localStorage.getItem('starlight-theme');
+					if (stored === 'light' || stored === 'dark') return stored;
+				}
+				return document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+			};
+
+			const setTheme = (next: 'light' | 'dark') => {
+				document.documentElement.dataset.theme = next;
+				if (typeof localStorage !== 'undefined') {
+					localStorage.setItem('starlight-theme', next);
+				}
+			};
+
+			btn.addEventListener('click', () => {
+				const current = getStoredTheme();
+				const next = current === 'dark' ? 'light' : 'dark';
+				setTheme(next);
+			});
+		}
+	}
+
+	if (!customElements.get('theme-toggle')) {
+		customElements.define('theme-toggle', ThemeToggle);
+	}
+</script>
+
+<style>
+	.mimir-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		width: 100%;
+		height: 100%;
+		gap: 1.5rem;
+	}
+
+	.header-brand {
+		display: flex;
+		align-items: center;
+		flex-shrink: 0;
+	}
+
+	.mimir-brand-link {
+		display: inline-flex;
+		align-items: center;
+		text-decoration: none;
+		outline: none;
+	}
+
+	.mimir-brand-link:focus-visible {
+		outline: 2px solid var(--sl-color-accent);
+		outline-offset: 2px;
+		border-radius: 4px;
+	}
+
+	.mimir-logo-img {
+		height: 32px;
+		width: auto;
+		image-rendering: pixelated;
+		display: block;
+	}
+
+	@media (min-width: 50rem) {
+		.mimir-logo-img {
+			height: 36px;
+		}
+	}
+
+	.header-search {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex: 1;
+		max-width: 22rem;
+		margin-inline: auto;
+	}
+
+	.header-actions {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		flex-shrink: 0;
+	}
+
+	.action-btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 34px;
+		height: 34px;
+		padding: 0;
+		border: 1px solid var(--sl-color-hairline);
+		border-radius: 5px;
+		background: var(--sl-color-bg-inline-code);
+		color: var(--sl-color-gray-2);
+		cursor: pointer;
+		text-decoration: none;
+		transition: background-color 160ms cubic-bezier(0.16, 1, 0.3, 1),
+		            border-color 160ms cubic-bezier(0.16, 1, 0.3, 1),
+		            color 160ms cubic-bezier(0.16, 1, 0.3, 1);
+	}
+
+	.action-btn:hover {
+		background: var(--sl-color-bg-sidebar);
+		border-color: var(--sl-color-gray-4);
+		color: var(--sl-color-white);
+	}
+
+	.action-btn:focus-visible {
+		outline: 2px solid var(--sl-color-accent);
+		outline-offset: 2px;
+	}
+
+	:root .icon-sun,
+	:root[data-theme='dark'] .icon-sun {
+		display: block;
+	}
+	:root .icon-moon,
+	:root[data-theme='dark'] .icon-moon {
+		display: none;
+	}
+
+	:root[data-theme='light'] .icon-sun {
+		display: none;
+	}
+	:root[data-theme='light'] .icon-moon {
+		display: block;
+	}
+</style>
