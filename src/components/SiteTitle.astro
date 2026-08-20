@@ -1,0 +1,48 @@
+---
+import logo from '../assets/logo.png';
+const { siteTitleHref } = Astro.locals.starlightRoute;
+---
+
+<a href={siteTitleHref} class="site-title-custom" aria-label="Mimir documentation home">
+	<img
+		src={logo.src}
+		alt="Mimir"
+		class="mimir-wordmark"
+		width={logo.width}
+		height={logo.height}
+		loading="eager"
+		decoding="sync"
+	/>
+</a>
+
+<style>
+	.site-title-custom {
+		display: inline-flex;
+		align-items: center;
+		height: 100%;
+		text-decoration: none;
+		outline: none;
+		padding: 0.25rem 0;
+	}
+
+	.site-title-custom:focus-visible {
+		outline: 2px solid var(--sl-color-accent);
+		outline-offset: 2px;
+		border-radius: 4px;
+	}
+
+	.mimir-wordmark {
+		height: 32px;
+		width: auto;
+		max-width: none;
+		object-fit: contain;
+		image-rendering: pixelated;
+		display: block;
+	}
+
+	@media (min-width: 50rem) {
+		.mimir-wordmark {
+			height: 36px;
+		}
+	}
+</style>

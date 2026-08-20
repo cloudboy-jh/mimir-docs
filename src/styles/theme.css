@@ -6,6 +6,7 @@
 /* Dark theme (Starlight default `:root`). */
 :root,
 ::backdrop {
+	--sl-nav-height: 3.5rem;
 	--sl-color-white: #f2f2ef;
 	--sl-color-gray-1: #e6e6e2;
 	--sl-color-gray-2: #c9c9c4;
@@ -25,7 +26,7 @@
 	--sl-color-bg: #111110;
 	--sl-color-bg-nav: #191918;
 	--sl-color-bg-sidebar: #191918;
-	--sl-color-bg-inline-code: #2a2a28;
+	--sl-color-bg-inline-code: #252523;
 	--sl-color-bg-accent: #5eead4;
 	--sl-color-hairline-light: #2a2a28;
 	--sl-color-hairline: #363633;
@@ -45,6 +46,7 @@
 /* Light theme. */
 :root[data-theme='light'],
 [data-theme='light'] ::backdrop {
+	--sl-nav-height: 3.5rem;
 	--sl-color-white: #1c1c1a;
 	--sl-color-gray-1: #333330;
 	--sl-color-gray-2: #4a4a46;
@@ -88,13 +90,6 @@
 	--sl-font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
-/* Brand: pixel-art wordmark in the header. */
-.site-title img {
-	height: 2.25rem;
-	width: auto;
-	image-rendering: pixelated;
-}
-
 /* Text selection matches the dashboard's teal selection. */
 ::selection {
 	background: #14b8a6;
@@ -105,7 +100,143 @@
 	color: #042f2e;
 }
 
-/* Mermaid diagrams render as a bordered, always-readable surface. */
+/* ------------------------------------------------------------------ */
+/* Header & Mechanical Controls                                       */
+/* ------------------------------------------------------------------ */
+
+header.header {
+	border-bottom: 1px solid var(--sl-color-hairline);
+	background-color: var(--sl-color-bg-nav);
+}
+
+@media (min-width: 50rem) {
+	.header {
+		display: flex !important;
+		align-items: center !important;
+		justify-content: space-between !important;
+		padding-inline: 1.25rem !important;
+		gap: 1rem !important;
+	}
+
+	.header .title-wrapper {
+		flex-shrink: 0;
+	}
+
+	.header .right-group {
+		display: flex !important;
+		align-items: center !important;
+		gap: 0.5rem !important;
+		margin-left: auto;
+	}
+}
+
+/* Search trigger button */
+button[data-open-modal] {
+	display: inline-flex !important;
+	align-items: center !important;
+	height: 32px !important;
+	padding-inline: 0.625rem 0.5rem !important;
+	gap: 0.5rem !important;
+	border: 1px solid var(--sl-color-hairline) !important;
+	border-radius: 5px !important;
+	background-color: var(--sl-color-bg-inline-code) !important;
+	color: var(--sl-color-gray-3) !important;
+	font-size: 0.8125rem !important;
+	font-weight: 500 !important;
+	width: auto !important;
+	min-width: 12rem !important;
+	max-width: 15rem !important;
+	cursor: pointer !important;
+	transition: border-color 160ms cubic-bezier(0.16, 1, 0.3, 1),
+	            color 160ms cubic-bezier(0.16, 1, 0.3, 1),
+	            background-color 160ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+button[data-open-modal]:hover {
+	border-color: var(--sl-color-gray-4) !important;
+	color: var(--sl-color-white) !important;
+}
+
+button[data-open-modal]:focus-visible {
+	outline: 2px solid var(--sl-color-accent) !important;
+	outline-offset: 2px !important;
+}
+
+button[data-open-modal] svg {
+	width: 0.875rem !important;
+	height: 0.875rem !important;
+	color: var(--sl-color-gray-3) !important;
+	flex-shrink: 0;
+}
+
+button[data-open-modal]:hover svg {
+	color: var(--sl-color-white) !important;
+}
+
+button[data-open-modal] kbd {
+	display: inline-flex !important;
+	align-items: center !important;
+	gap: 2px !important;
+	padding: 1px 5px !important;
+	border-radius: 3px !important;
+	border: 1px solid var(--sl-color-hairline) !important;
+	background-color: var(--sl-color-black) !important;
+	color: var(--sl-color-gray-3) !important;
+	font-family: var(--sl-font-mono) !important;
+	font-size: 0.6875rem !important;
+	font-weight: 500 !important;
+	margin-left: auto !important;
+	line-height: 1.2 !important;
+}
+
+button[data-open-modal]:hover kbd {
+	border-color: var(--sl-color-gray-4) !important;
+	color: var(--sl-color-gray-2) !important;
+}
+
+/* GitHub social icon button */
+.social-icons a {
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	width: 32px !important;
+	height: 32px !important;
+	padding: 0 !important;
+	margin: 0 !important;
+	border: 1px solid var(--sl-color-hairline) !important;
+	border-radius: 5px !important;
+	background-color: transparent !important;
+	color: var(--sl-color-gray-2) !important;
+	transition: background-color 160ms cubic-bezier(0.16, 1, 0.3, 1),
+	            border-color 160ms cubic-bezier(0.16, 1, 0.3, 1),
+	            color 160ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.social-icons a:hover {
+	background-color: var(--sl-color-bg-inline-code) !important;
+	border-color: var(--sl-color-gray-4) !important;
+	color: var(--sl-color-white) !important;
+}
+
+.social-icons a:focus-visible {
+	outline: 2px solid var(--sl-color-accent) !important;
+	outline-offset: 2px !important;
+}
+
+.social-icons a svg {
+	width: 1rem !important;
+	height: 1rem !important;
+}
+
+/* Kill default separator line */
+.social-icons::after {
+	display: none !important;
+}
+
+/* ------------------------------------------------------------------ */
+/* Mermaid Diagrams                                                   */
+/* ------------------------------------------------------------------ */
+
 .mermaid {
 	display: flex;
 	justify-content: center;

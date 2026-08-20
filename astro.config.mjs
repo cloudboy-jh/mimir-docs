@@ -29,6 +29,10 @@ export default defineConfig({
 				{ icon: 'github', label: 'GitHub', href: 'https://github.com/cloudboy-jh/Mimir' },
 			],
 			head: [{ tag: 'script', attrs: { type: 'module' }, content: mermaidScript }],
+			components: {
+				SiteTitle: './src/components/SiteTitle.astro',
+				ThemeSelect: './src/components/ThemeSelect.astro',
+			},
 			customCss: [
 				'@fontsource-variable/ibm-plex-sans',
 				'@fontsource/ibm-plex-mono/latin-400.css',
