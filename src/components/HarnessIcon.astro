@@ -1,4 +1,11 @@
 ---
+import opencodeRaw from '@lobehub/icons-static-svg/icons/opencode.svg?raw';
+import piRaw from '@lobehub/icons-static-svg/icons/pi.svg?raw';
+import hermesRaw from '@lobehub/icons-static-svg/icons/hermesagent.svg?raw';
+import claudeRaw from '@lobehub/icons-static-svg/icons/claudecode.svg?raw';
+import codexRaw from '@lobehub/icons-static-svg/icons/codex.svg?raw';
+import cursorRaw from '@lobehub/icons-static-svg/icons/cursor.svg?raw';
+
 interface Props {
 	name: 'opencode' | 'pi' | 'oh-my-pi' | 'hermes' | 'claude-code' | 'codex' | 'cursor' | string;
 	class?: string;
@@ -7,54 +14,48 @@ interface Props {
 
 const { name, class: className = '', size = '1rem' } = Astro.props;
 const normalized = name.toLowerCase().trim().replace(/[\s_]+/g, '-');
+
+const ohMyPiRaw = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 90"><rect x="10" y="8" width="100" height="12" rx="2" fill="currentColor"/><rect x="25" y="20" width="12" height="62" rx="2" fill="currentColor"/><rect x="75" y="20" width="12" height="45" rx="2" fill="currentColor"/><rect x="71" y="55" width="20" height="16" rx="3" fill="#f97316"/><rect x="76" y="59" width="3" height="8" rx="1" fill="currentColor"/><rect x="82" y="59" width="3" height="8" rx="1" fill="currentColor"/><circle cx="18" cy="14" r="2" fill="#f97316" opacity=".8"/><circle cx="102" cy="14" r="2" fill="#f97316" opacity=".8"/></svg>`;
+
+const iconMap: Record<string, string> = {
+	opencode: opencodeRaw,
+	pi: piRaw,
+	'oh-my-pi': ohMyPiRaw,
+	omp: ohMyPiRaw,
+	hermes: hermesRaw,
+	'hermes-agent': hermesRaw,
+	'claude-code': claudeRaw,
+	claude: claudeRaw,
+	codex: codexRaw,
+	cursor: cursorRaw,
+};
+
+const rawSvg = iconMap[normalized] || '';
 ---
 
-{normalized === 'opencode' && (
-	<svg class:list={['harness-icon opencode-icon', className]} width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
-		<path d="M16 6H8v12h8V6zm4 16H4V2h16v20z"></path>
-	</svg>
+{rawSvg && (
+	<span
+		class:list={['harness-icon-wrapper', `harness-${normalized}`, className]}
+		style={`--harness-icon-size: ${size};`}
+		set:html={rawSvg}
+	/>
 )}
 
-{normalized === 'pi' && (
-	<svg class:list={['harness-icon pi-icon', className]} width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
-		<path clip-rule="evenodd" d="M1 1h16.5v11H12v5.5H6.5V23H1V1zm5.5 5.5V12H12V6.5H6.5z"></path>
-		<path d="M17.5 12H23v11h-5.5V12z"></path>
-	</svg>
-)}
+<style>
+	.harness-icon-wrapper {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: var(--harness-icon-size, 1rem);
+		height: var(--harness-icon-size, 1rem);
+		flex-shrink: 0;
+		line-height: 1;
+	}
 
-{(normalized === 'oh-my-pi' || normalized === 'omp') && (
-	<svg class:list={['harness-icon omp-icon', className]} width={size} height={size} viewBox="0 0 120 90">
-		<rect x="10" y="8" width="100" height="12" rx="2" fill="currentColor"/>
-		<rect x="25" y="20" width="12" height="62" rx="2" fill="currentColor"/>
-		<rect x="75" y="20" width="12" height="45" rx="2" fill="currentColor"/>
-		<rect x="71" y="55" width="20" height="16" rx="3" fill="#f97316"/>
-		<rect x="76" y="59" width="3" height="8" rx="1" fill="currentColor"/>
-		<rect x="82" y="59" width="3" height="8" rx="1" fill="currentColor"/>
-		<circle cx="18" cy="14" r="2" fill="#f97316" opacity=".8"/>
-		<circle cx="102" cy="14" r="2" fill="#f97316" opacity=".8"/>
-	</svg>
-)}
-
-{normalized === 'hermes' && (
-	<svg class:list={['harness-icon hermes-icon', className]} width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
-		<path d="M5.938 12.835c.127-.039.285.02.373.143.028.038.036.092.046.14.003.014-.02.033-.04.05-.124-.098-.24-.194-.354-.291-.011-.01-.016-.027-.025-.042zM8.396 9.412c.195-.032.39-.06.588-.05a.54.54 0 01.148.026c.202.071.402.147.601.224.028.01.05.036.075.055l-.013.027a9.203 9.203 0 01-.26-.089c-.115-.038-.213-.077-.315-.098-.25-.05-.25-.046-.292-.014l.574.144c.275.139.55.276.823.417.042.022.09.057.107.098.026.06.063.076.117.072.066-.006.132-.017.213-.027l-.04.086c.051.08.142.02.216.064-.074.13-.247.09-.334.199l.061.074-.12.087c0 .106-.038.168-.306.243l.026.085-.196.042.07.124h-.25l-.007.137c-.081-.01-.161-.018-.244-.027l-.053.123c-.027-.008-.052-.011-.073-.023-.067-.038-.128-.056-.195.006-.019.017-.063.014-.093.008-.026-.006-.05-.029-.07-.042-.11.095-.11.095-.208.003-.057.046-.12.074-.186.011-.063.027-.123-.02-.178-.014-.07.007-.097-.035-.133-.07l-.13.033c-.013-.236-.194-.19-.34-.203.005-.072.05-.092.095-.094a.474.474 0 01.159.022c.164.05.32.12.496.138.203.021.405.029.601-.015.265-.059.52-.149.707-.365.049-.056.083-.127.117-.195.019-.038.02-.084-.02-.116a1.397 1.397 0 00-.382-.217c.024.12-.031.182-.115.221 0 .014-.004.025 0 .03.08.115.084.16-.007.267a1.39 1.39 0 01-.218.211.477.477 0 01-.641-.05 1.36 1.36 0 01-.133-.152c-.078-.107-.076-.108-.033-.236-.165-.08-.128-.226-.104-.364.008-.05.028-.096.049-.163-.04.014-.067.017-.087.032a.897.897 0 00-.316.357c-.007.016-.01.034-.02.047-.012.015-.034.038-.045.035-.02-.006-.037-.027-.05-.045-.008-.012-.007-.032-.012-.057h-.126l.053-.172a14.82 14.82 0 00-.039-.049l.11-.284c-.06.026-.091.044-.124.051-.03.007-.064 0-.095 0 0-.031-.01-.07.004-.092.149-.22.305-.428.593-.476z"></path>
-	</svg>
-)}
-
-{(normalized === 'claude-code' || normalized === 'claude') && (
-	<svg class:list={['harness-icon claude-icon', className]} width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
-		<path clip-rule="evenodd" d="M20.998 10.949H24v3.102h-3v3.028h-1.487V20H18v-2.921h-1.487V20H15v-2.921H9V20H7.488v-2.921H6V20H4.487v-2.921H3V14.05H0V10.95h3V5h17.998v5.949zM6 10.949h1.488V8.102H6v2.847zm10.51 0H18V8.102h-1.49v2.847z"></path>
-	</svg>
-)}
-
-{normalized === 'codex' && (
-	<svg class:list={['harness-icon codex-icon', className]} width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
-		<path clip-rule="evenodd" d="M8.086.457a6.105 6.105 0 013.046-.415c1.333.153 2.521.72 3.564 1.7a.117.117 0 00.107.029c1.408-.346 2.762-.224 4.061.366l.063.03.154.076c1.357.703 2.33 1.77 2.918 3.198.278.679.418 1.388.421 2.126a5.655 5.655 0 01-.18 1.631.167.167 0 00.04.155 5.982 5.982 0 011.578 2.891c.385 1.901-.01 3.615-1.183 5.14l-.182.22a6.063 6.063 0 01-2.934 1.851.162.162 0 00-.108.102c-.255.736-.511 1.364-.987 1.992-1.199 1.582-2.962 2.462-4.948 2.451-1.583-.008-2.986-.587-4.21-1.736a.145.145 0 00-.14-.032c-.518.167-1.04.191-1.604.185a5.924 5.924 0 01-2.595-.622 6.058 6.058 0 01-2.146-1.781c-.203-.269-.404-.522-.551-.821a7.74 7.74 0 01-.495-1.283 6.11 6.11 0 01-.017-3.064.166.166 0 00.008-.074.115.115 0 00-.037-.064 5.958 5.958 0 01-1.38-2.202 5.196 5.196 0 01-.333-1.589 6.915 6.915 0 01.188-2.132c.45-1.484 1.309-2.648 2.577-3.493.282-.188.55-.334.802-.438.286-.12.573-.22.861-.304a.129.129 0 00.087-.087A6.016 6.016 0 015.635 2.31C6.315 1.464 7.132.846 8.086.457zm-.804 7.85a.848.848 0 00-1.473.842l1.694 2.965-1.688 2.848a.849.849 0 001.46.864l1.94-3.272a.849.849 0 00.007-.854l-1.94-3.393zm5.446 6.24a.849.849 0 000 1.695h4.848a.849.849 0 000-1.696h-4.848z"></path>
-	</svg>
-)}
-
-{normalized === 'cursor' && (
-	<svg class:list={['harness-icon cursor-icon', className]} width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
-		<path d="M22.106 5.68L12.5.135a.998.998 0 00-.998 0L1.893 5.68a.84.84 0 00-.419.726v11.186c0 .3.16.577.42.727l9.607 5.547a.999.999 0 00.998 0l9.608-5.547a.84.84 0 00.42-.727V6.407a.84.84 0 00-.42-.726zm-.603 1.176L12.228 22.92c-.063.108-.228.064-.228-.061V12.34a.59.59 0 00-.295-.51l-9.11-5.26c-.107-.062-.063-.228.062-.228h18.55c.264 0 .428.286.296.514z"></path>
-	</svg>
-)}
+	.harness-icon-wrapper :global(svg) {
+		width: 100% !important;
+		height: 100% !important;
+		display: block;
+		fill: currentColor;
+	}
+</style>
