@@ -1,0 +1,75 @@
+---
+title: Mimir
+description: Durable session memory for coding agents — self-hosted in your Cloudflare account.
+template: splash
+hero:
+  tagline: Durable session memory for coding agents.
+  image:
+    file: ../../assets/logo.png
+  actions:
+    - text: Install Mimir
+      link: /installation/
+      icon: right-arrow
+    - text: How it works
+      link: /how-it-works/
+      icon: right-arrow
+      variant: minimal
+    - text: GitHub
+      link: https://github.com/cloudboy-jh/Mimir
+      icon: github
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+Mimir records what your coding agents attempted, which models and files were
+involved, what failed, and whether the work actually landed. The Worker,
+storage, and private dashboard run inside your Cloudflare account.
+
+A session is one episode of agent work, not a bag of disconnected requests.
+Mimir reconstructs the task, repository, models, duration, and token use — plus
+the redacted proxy exchanges, touched files, real error signals, and evidence of
+whether the work landed or was discarded.
+
+<CardGrid stagger>
+	<Card title="Understand agent work" icon="open-book">
+		One-click session reconstruction: what an agent attempted, which models ran,
+		and whether it actually landed.
+	</Card>
+	<Card title="Self-hosted memory" icon="setting">
+		The Worker, D1, R2, and Durable Object all live in your Cloudflare account.
+		No Mimir-hosted backend.
+	</Card>
+	<Card title="Search before you retry" icon="magnifier">
+		Query past sessions so the next attempt avoids the same dead end.
+	</Card>
+	<Card title="Works across harnesses" icon="puzzle">
+		OpenCode, Pi, Oh My Pi, Hermes, Claude Code, Codex, and Cursor.
+	</Card>
+</CardGrid>
+
+## The private dashboard
+
+<img src="/images/mimir-dash-screenshot.png" alt="Mimir private dashboard showing captured coding-agent sessions, outcomes, capture state, models, and token usage." loading="lazy" />
+
+The dashboard keeps sessions, outcomes, capture state, harnesses, models, and
+token usage visible in one place. It leads with sessions; requests remain
+one click away when you need the raw record.
+
+## Start here
+
+Install the latest checksum-verified release:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/cloudboy-jh/mimir/master/install.sh | sh
+```
+
+Windows PowerShell:
+
+```powershell
+irm https://raw.githubusercontent.com/cloudboy-jh/mimir/master/install.ps1 | iex
+```
+
+Then either explore locally with [`mimir demo`](/installation/#try-it-locally)
+or [create a deployment](/installation/#create-a-deployment) with
+`mimir setup`.

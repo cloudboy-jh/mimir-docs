@@ -1,0 +1,122 @@
+/* ------------------------------------------------------------------ */
+/* Mimir theme — mapped from the Mimir design system (docs/DESIGN.md). */
+/* Palette: Instrument Teal accent + warm Recorder Canvas neutrals.    */
+/* ------------------------------------------------------------------ */
+
+/* Dark theme (Starlight default `:root`). */
+:root,
+::backdrop {
+	--sl-color-white: #f2f2ef;
+	--sl-color-gray-1: #e6e6e2;
+	--sl-color-gray-2: #c9c9c4;
+	--sl-color-gray-3: #a1a19c;
+	--sl-color-gray-4: #777772;
+	--sl-color-gray-5: #4a4a46;
+	--sl-color-gray-6: #363633;
+	--sl-color-black: #111110;
+
+	--sl-color-accent-low: #042f2e;
+	--sl-color-accent: #14b8a6;
+	--sl-color-accent-high: #5eead4;
+
+	--sl-color-text: #f2f2ef;
+	--sl-color-text-accent: #5eead4;
+	--sl-color-text-invert: #042f2e;
+	--sl-color-bg: #111110;
+	--sl-color-bg-nav: #191918;
+	--sl-color-bg-sidebar: #191918;
+	--sl-color-bg-inline-code: #2a2a28;
+	--sl-color-bg-accent: #5eead4;
+	--sl-color-hairline-light: #2a2a28;
+	--sl-color-hairline: #363633;
+	--sl-color-hairline-shade: #111110;
+
+	--sl-color-backdrop-overlay: rgba(4, 4, 4, 0.66);
+
+	/* Re-hue callout colors away from the default blue/purple cast. */
+	--sl-color-blue-low: #134e4a;
+	--sl-color-blue: #14b8a6;
+	--sl-color-blue-high: #5eead4;
+	--sl-color-purple-low: #134e4a;
+	--sl-color-purple: #2dd4bf;
+	--sl-color-purple-high: #99f6e4;
+}
+
+/* Light theme. */
+:root[data-theme='light'],
+[data-theme='light'] ::backdrop {
+	--sl-color-white: #1c1c1a;
+	--sl-color-gray-1: #333330;
+	--sl-color-gray-2: #4a4a46;
+	--sl-color-gray-3: #62625d;
+	--sl-color-gray-4: #8d8d86;
+	--sl-color-gray-5: #b8b8b1;
+	--sl-color-gray-6: #deded9;
+	--sl-color-gray-7: #ededeb;
+	--sl-color-black: #f7f7f5;
+
+	--sl-color-accent-low: #99f6e4;
+	--sl-color-accent: #0f766e;
+	--sl-color-accent-high: #115e59;
+
+	--sl-color-text: #1c1c1a;
+	--sl-color-text-accent: #0f766e;
+	--sl-color-text-invert: #ffffff;
+	--sl-color-bg: #f7f7f5;
+	--sl-color-bg-nav: #f7f7f5;
+	--sl-color-bg-sidebar: #f7f7f5;
+	--sl-color-bg-inline-code: #ededeb;
+	--sl-color-bg-accent: #0f766e;
+	--sl-color-hairline-light: #ededeb;
+	--sl-color-hairline: #deded9;
+	--sl-color-hairline-shade: #deded9;
+
+	--sl-color-backdrop-overlay: rgba(28, 28, 26, 0.5);
+
+	/* Re-hue callout colors away from the default blue/purple cast. */
+	--sl-color-blue-low: #99f6e4;
+	--sl-color-blue: #0f766e;
+	--sl-color-blue-high: #115e59;
+	--sl-color-purple-low: #ccfbf1;
+	--sl-color-purple: #0f766e;
+	--sl-color-purple-high: #115e59;
+}
+
+/* Typography. */
+:root {
+	--sl-font: 'IBM Plex Sans Variable', 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+	--sl-font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* Brand: pixel-art wordmark in the header. */
+.site-title img {
+	height: 2.25rem;
+	width: auto;
+	image-rendering: pixelated;
+}
+
+/* Text selection matches the dashboard's teal selection. */
+::selection {
+	background: #14b8a6;
+	color: #042f2e;
+}
+:root[data-theme='light'] ::selection {
+	background: #5eead4;
+	color: #042f2e;
+}
+
+/* Mermaid diagrams render as a bordered, always-readable surface. */
+.mermaid {
+	display: flex;
+	justify-content: center;
+	padding: 1.25rem;
+	margin: 1.5rem 0;
+	overflow-x: auto;
+	border: 1px solid #deded9;
+	border-radius: 7px;
+	background: #ffffff;
+}
+.mermaid svg {
+	max-width: 100%;
+	height: auto;
+}
