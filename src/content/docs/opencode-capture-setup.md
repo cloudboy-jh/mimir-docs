@@ -3,6 +3,15 @@ title: "OpenCode Capture"
 description: "How the Mimir plugin captures OpenCode sessions across providers."
 ---
 
+import HarnessIcon from '../../components/HarnessIcon.astro';
+
+<div class="flex items-center gap-2 mb-6 text-sm text-zinc-400">
+	<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-zinc-800/60 border border-zinc-700/50">
+		<HarnessIcon name="opencode" size="1.1rem" />
+		<strong>OpenCode</strong>
+	</span>
+</div>
+
 
 OpenCode capture runs through the Mimir plugin at
 [`plugins/opencode/mimir.ts`](https://github.com/cloudboy-jh/Mimir/blob/master/plugins/opencode/mimir.ts). It observes

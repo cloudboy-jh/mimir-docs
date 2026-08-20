@@ -3,6 +3,15 @@ title: "Hermes Capture"
 description: "How Hermes routes its OpenRouter provider through Mimir and reports direct-provider turns."
 ---
 
+import HarnessIcon from '../../components/HarnessIcon.astro';
+
+<div class="flex items-center gap-2 mb-6 text-sm text-zinc-400">
+	<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-zinc-800/60 border border-zinc-700/50">
+		<HarnessIcon name="hermes" size="1.1rem" />
+		<strong>Hermes</strong>
+	</span>
+</div>
+
 
 Date: 2026-07-22
 Status: Implemented; pending first deployed desktop/TUI verification.

@@ -1,0 +1,184 @@
+---
+import { Icon, Badge } from '@astrojs/starlight/components';
+import HarnessIcon from './HarnessIcon.astro';
+
+interface Props {
+	sublist: any[];
+	nested?: boolean;
+}
+
+const { sublist, nested } = Astro.props;
+
+function flattenSidebar(entries: any[]): any[] {
+	return entries.flatMap((entry) => (entry.type === 'group' ? flattenSidebar(entry.entries) : entry));
+}
+
+function getHarnessName(label: string): string | null {
+	const l = label.toLowerCase();
+	if (l.includes('opencode')) return 'opencode';
+	if (l.includes('pi')) return 'pi';
+	if (l.includes('hermes')) return 'hermes';
+	if (l.includes('claude') || l.includes('other harness') || l.includes('codex') || l.includes('cursor')) return 'claude-code';
+	return null;
+}
+
+const currentGroupIndexSymbol = Symbol.for('starlight-sidebar-group-index');
+const locals = Astro.locals as App.Locals & { [currentGroupIndexSymbol]: number };
+const index = locals[currentGroupIndexSymbol] || 0;
+locals[currentGroupIndexSymbol] = index + 1;
+---
+
+<ul class:list={{ 'top-level': !nested }}>
+	{
+		sublist.map((entry) => (
+			<li>
+				{entry.type === 'link' ? (
+					<a
+						href={entry.href}
+						aria-current={entry.isCurrent ? 'page' : undefined}
+						class:list={[{ large: !nested }, entry.attrs?.class, 'sidebar-link']}
+						{...entry.attrs}
+					>
+						{getHarnessName(entry.label) && (
+							<span class="sidebar-icon">
+								<HarnessIcon name={getHarnessName(entry.label)!} size="0.95rem" />
+							</span>
+						)}
+						<span class="sidebar-label">{entry.label}</span>
+						{entry.badge && (
+							<Badge
+								variant={entry.badge.variant}
+								class={entry.badge.class}
+								text={entry.badge.text}
+							/>
+						)}
+					</a>
+				) : (
+					<details
+						open={flattenSidebar(entry.entries).some((i) => i.isCurrent) || !entry.collapsed}
+					>
+						<summary>
+							<span class="group-label">
+								<span class="large">{entry.label}</span>
+								{entry.badge && (
+									<Badge
+										variant={entry.badge.variant}
+										class={entry.badge.class}
+										text={entry.badge.text}
+									/>
+								)}
+							</span>
+							<Icon name="right-caret" class="caret" size="1.25rem" />
+						</summary>
+						<sl-sidebar-restore data-index={index}></sl-sidebar-restore>
+						<Astro.self sublist={entry.entries} nested />
+					</details>
+				)}
+			</li>
+		))
+	}
+</ul>
+
+<style>
+	@layer starlight.core {
+		ul {
+			--sl-sidebar-item-padding-inline: 0.5rem;
+			list-style: none;
+			padding: 0;
+		}
+
+		li {
+			overflow-wrap: anywhere;
+		}
+
+		ul ul li {
+			margin-inline-start: var(--sl-sidebar-item-padding-inline);
+			border-inline-start: 1px solid var(--sl-color-hairline-light);
+			padding-inline-start: var(--sl-sidebar-item-padding-inline);
+		}
+
+		.large {
+			font-size: var(--sl-text-lg);
+			font-weight: 600;
+			color: var(--sl-color-white);
+		}
+
+		.top-level > li + li {
+			margin-top: 0.75rem;
+		}
+
+		summary {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 0.2em var(--sl-sidebar-item-padding-inline);
+			line-height: 1.4;
+			cursor: pointer;
+			user-select: none;
+		}
+		summary::marker,
+		summary::-webkit-details-marker {
+			display: none;
+		}
+
+		.caret {
+			transition: transform 0.2s ease-in-out;
+			flex-shrink: 0;
+		}
+		:global([dir='rtl']) .caret {
+			transform: rotateZ(180deg);
+		}
+		[open] > summary .caret {
+			transform: rotateZ(90deg);
+		}
+
+		a.sidebar-link {
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+			border-radius: 5px;
+			text-decoration: none;
+			color: var(--sl-color-gray-2);
+			padding: 0.35em var(--sl-sidebar-item-padding-inline);
+			line-height: 1.4;
+			transition: color 140ms ease, background-color 140ms ease;
+		}
+
+		.sidebar-icon {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			color: var(--sl-color-gray-3);
+			flex-shrink: 0;
+		}
+
+		a.sidebar-link:hover .sidebar-icon {
+			color: var(--sl-color-white);
+		}
+
+		a.sidebar-link[aria-current='page'] .sidebar-icon {
+			color: var(--sl-color-accent);
+		}
+
+		.sidebar-label {
+			flex: 1;
+		}
+
+		a:hover,
+		a:focus {
+			color: var(--sl-color-white);
+		}
+
+		@media (min-width: 50rem) {
+			.top-level > li + li {
+				margin-top: 0.5rem;
+			}
+			.large {
+				font-size: var(--sl-text-base);
+			}
+			a {
+				font-size: var(--sl-text-sm);
+			}
+		}
+	}
+</style>

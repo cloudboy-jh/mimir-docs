@@ -34,6 +34,7 @@ export default defineConfig({
 			head: [{ tag: 'script', attrs: { type: 'module' }, content: mermaidScript }],
 			components: {
 				Header: './src/components/Header.astro',
+				Sidebar: './src/components/Sidebar.astro',
 			},
 			customCss: [
 				'@fontsource-variable/ibm-plex-sans',
@@ -61,6 +62,7 @@ export default defineConfig({
 					label: 'Capture Setup',
 					items: [
 						{ label: 'OpenCode', slug: 'opencode-capture-setup' },
+						{ label: 'Pi & Oh My Pi', slug: 'pi-capture-setup' },
 						{ label: 'Hermes', slug: 'hermes-capture-setup' },
 						{ label: 'Other Harnesses', slug: 'other-harnesses' },
 					],

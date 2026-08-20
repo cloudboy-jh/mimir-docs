@@ -1,41 +1,45 @@
 ---
-title: "Other Harnesses"
-description: "Connect Pi, Oh My Pi, Claude Code, Codex, Cursor, and other tools to Mimir."
+title: "Claude Code, Codex, and Cursor"
+description: "Connect Claude Code, Codex, Cursor, and custom tools to Mimir."
 ---
 
-The installer manages per-harness integrations and the shared Mimir skill.
-Capture settings for OpenCode and Hermes have their own pages; the rest are
-covered here.
+import HarnessIcon from '../../components/HarnessIcon.astro';
 
-## Pi
+<div class="flex flex-wrap items-center gap-2 mb-6 text-sm text-zinc-400">
+	<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-zinc-800/60 border border-zinc-700/50">
+		<HarnessIcon name="claude-code" size="1.1rem" />
+		<strong>Claude Code</strong>
+	</span>
+	<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-zinc-800/60 border border-zinc-700/50">
+		<HarnessIcon name="codex" size="1.1rem" />
+		<strong>Codex</strong>
+	</span>
+	<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-zinc-800/60 border border-zinc-700/50">
+		<HarnessIcon name="cursor" size="1.1rem" />
+		<strong>Cursor</strong>
+	</span>
+</div>
 
-The installer manages a global Pi extension and the shared Mimir skill. The
-extension routes Pi's OpenRouter provider through Mimir with exact session,
-repository, and harness headers. For direct and subscription providers it
-uploads bounded reconstructed completed turns, including tool results exposed by
-Pi. Restart Pi after install or update. Ask Pi for Mimir memory normally; the
-skill runs the machine-readable CLI and formats results.
-
-## Oh My Pi
-
-Oh My Pi is selected independently under the Pi group during setup. Mimir
-installs its adapter at `~/.omp/agent/extensions/mimir.ts` (or the active OMP
-profile), activates exact lifecycle heartbeats on the first real turn, and
-captures OpenRouter plus bounded direct-provider evidence. Idle drafts do not
-create dashboard sessions. Restart `omp` after install or update. Use
-`OMP_CODING_AGENT_DIR` when OMP has a nonstandard agent home.
+Dedicated capture setup guides are available for [OpenCode](/opencode-capture-setup/), [Pi & Oh My Pi](/pi-capture-setup/), and [Hermes](/hermes-capture-setup/).
 
 ## Claude Code, Codex, and Cursor
 
 The installer enrolls receipt-owned hook manifests in each harness's supported
 location. Their start, prompt, completion, and end hooks invoke the hidden
 `mimir _hook` adapter, which reconstructs bounded prompt/assistant exchanges and
-queues delivery when the Worker is unavailable. Existing different hook files
-are preserved as conflicts rather than merged or overwritten. Claude Code uses
-`/reload-plugins` or a restart; Codex requires a restart; Cursor reloads
-`hooks.json` when you open or continue an agent session.
+queues delivery when the Worker is unavailable.
+
+Existing different hook files are preserved as conflicts rather than merged or
+overwritten.
+
+- **Claude Code**: Reload with `/reload-plugins` or restart Claude Code.
+- **Codex**: Requires a restart after install.
+- **Cursor**: Cursor automatically reloads `hooks.json` when you open or continue
+  an agent session.
 
 ## Other harnesses and tools
+
+To connect custom harnesses or third-party tools:
 
 ```bash
 mimir connection
