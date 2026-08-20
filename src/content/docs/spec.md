@@ -44,14 +44,14 @@ and harness plugins are clients of those APIs.
 Local code memory remains `<repo>/.mimir/index.json`. It is never uploaded to
 D1 or R2.
 
-<div class="mermaid">
+<pre class="mermaid">
 flowchart LR
     subgraph LOCAL[Developer machines]
         H[Agent harness]
         C[Go CLI]
         B[Dashboard browser]
         I[(Local code index)]
-        H &lt;--&gt; C
+        H <--> C
         C --- I
     end
 
@@ -61,21 +61,21 @@ flowchart LR
         R[(R2 redacted objects)]
         D[(D1 metadata and state)]
 
-        W --&gt;|redacted exchanges| R
-        W --&gt;|search metadata and references| D
-        W -.-&gt;|events and saved exchanges| S
-        S --&gt;|transcript manifest| R
-        S --&gt;|lifecycle state| D
+        W -->|redacted exchanges| R
+        W -->|search metadata and references| D
+        W -.->|events and saved exchanges| S
+        S -->|transcript manifest| R
+        S -->|lifecycle state| D
     end
 
     O[OpenRouter]
 
-    H &lt;--&gt;|redirected model stream| W
-    H -.-&gt;|turns, heartbeats, ends| W
-    C &lt;--&gt;|machine-token HTTP API| W
-    B &lt;--&gt;|Access-protected dashboard API| W
-    W &lt;--&gt;|upstream stream| O
-</div>
+    H <-->|redirected model stream| W
+    H -.->|turns, heartbeats, ends| W
+    C <-->|machine-token HTTP API| W
+    B <-->|Access-protected dashboard API| W
+    W <-->|upstream stream| O
+</pre>
 
 ## 3. Authentication
 

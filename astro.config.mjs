@@ -4,10 +4,13 @@ import starlight from '@astrojs/starlight';
 
 const mermaidScript = `import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
 mermaid.initialize({
-  startOnLoad: true,
+  startOnLoad: false,
   securityLevel: 'loose',
   theme: 'neutral',
   fontFamily: 'IBM Plex Mono, ui-monospace, monospace',
+});
+document.addEventListener('DOMContentLoaded', async () => {
+  await mermaid.run({ querySelector: 'pre.mermaid, .mermaid' });
 });
 export default {};
 `;

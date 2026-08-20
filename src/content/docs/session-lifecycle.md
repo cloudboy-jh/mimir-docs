@@ -12,26 +12,26 @@ lifecycle events; Hermes activates plugin lifecycle reporting only after direct
 provider evidence and suppresses turns known to have traversed the proxy. One
 Session Durable Object coordinates each exact session ID.
 
-<div class="mermaid">
+<pre class="mermaid">
 stateDiagram-v2
-    state first_event &lt;&lt;choice&gt;&gt;
-    [*] --&gt; first_event
-    first_event --&gt; Active: heartbeat, turn, or saved exchange
-    first_event --&gt; Finalizing: end
-    Active --&gt; Disconnected: about 90 seconds silent
-    Active --&gt; Finalizing: end event or explicit end
-    Disconnected --&gt; Active: accepted activity
-    Disconnected --&gt; Finalizing: end, explicit end, or about 10 minutes total silence
-    Finalizing --&gt; Finalizing: durable write retry
-    Finalizing --&gt; Finalized: manifest and lifecycle state saved
-    Finalized --&gt; Active: accepted new activity with same ID
+    state first_event <<choice>>
+    [*] --> first_event
+    first_event --> Active: heartbeat, turn, or saved exchange
+    first_event --> Finalizing: end
+    Active --> Disconnected: about 90 seconds silent
+    Active --> Finalizing: end event or explicit end
+    Disconnected --> Active: accepted activity
+    Disconnected --> Finalizing: end, explicit end, or about 10 minutes total silence
+    Finalizing --> Finalizing: durable write retry
+    Finalizing --> Finalized: manifest and lifecycle state saved
+    Finalized --> Active: accepted new activity with same ID
 
     note right of Disconnected
       Liveness projection only.
       Durable capture and work
       outcome remain independent.
     end note
-</div>
+</pre>
 
 `x-mimir-session` is the authoritative boundary. R2 and D1 are canonical for
 saved proxy and reconstructed harness exchanges, searchable metadata, and
