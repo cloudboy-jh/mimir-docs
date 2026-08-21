@@ -88,6 +88,50 @@
 :root {
 	--sl-font: 'IBM Plex Sans Variable', 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
 	--sl-font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+	--sl-content-width: 44rem;
+}
+
+/* Product identity rows used at the top of harness guides. */
+.harness-list {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.625rem;
+	margin-block: 0 1.75rem;
+}
+
+.harness-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.625rem;
+	padding: 0.25rem 0.75rem 0.25rem 0.25rem;
+	border: 1px solid var(--sl-color-hairline);
+	border-radius: 6px;
+	background: var(--sl-color-bg-sidebar);
+	color: var(--sl-color-gray-1);
+	font-size: 0.8125rem;
+	font-weight: 600;
+	line-height: 1;
+}
+
+.harness-badge .product-icon {
+	width: 1.75rem;
+	height: 1.75rem;
+	border: 1px solid var(--sl-color-hairline);
+	border-radius: 4px;
+	background: var(--sl-color-bg-inline-code);
+	color: var(--sl-color-text-accent);
+}
+
+.harness-badge .product-icon svg {
+	width: 0.9375rem !important;
+	height: 0.9375rem !important;
+}
+
+.sl-markdown-content > p,
+.sl-markdown-content > ol,
+.sl-markdown-content > ul {
+	max-width: 70ch;
 }
 
 /* Text selection matches the dashboard's teal selection. */

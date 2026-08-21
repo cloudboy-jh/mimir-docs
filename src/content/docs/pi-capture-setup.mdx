@@ -1,56 +1,47 @@
 ---
-title: "Pi & Oh My Pi Session Capture"
+title: "Pi & Oh My Pi Capture"
 description: "How Mimir captures Pi and Oh My Pi sessions across OpenRouter and direct providers."
 ---
 import HarnessIcon from '../../components/HarnessIcon.astro';
 
-<div class="flex items-center gap-2 mb-6 text-sm text-zinc-400">
-	<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-zinc-800/60 border border-zinc-700/50">
-		<HarnessIcon name="pi" size="1.1rem" />
+<div class="harness-list" aria-label="Supported harnesses">
+	<span class="harness-badge">
+		<HarnessIcon name="pi" class="product-icon" size="1.75rem" />
 		<strong>Pi</strong>
 	</span>
-	<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-zinc-800/60 border border-zinc-700/50">
-		<HarnessIcon name="oh-my-pi" size="1.1rem" />
+	<span class="harness-badge">
+		<HarnessIcon name="oh-my-pi" class="product-icon" size="1.75rem" />
 		<strong>Oh My Pi</strong>
 	</span>
 </div>
 
-Mimir integrates with both Pi and Oh My Pi to provide seamless session capture, liveness tracking, and memory recall.
+Mimir captures completed turns from Pi and Oh My Pi across OpenRouter and
+direct providers. The shared memory skill retrieves prior sessions and evidence.
 
 ## Pi
 
-The installer manages a global Pi extension and the shared Mimir skill.
-
-### How it works
-
-1. **OpenRouter route**: The extension routes Pi's OpenRouter provider through Mimir with exact session (`x-mimir-session`), repository (`x-mimir-repo`), and harness headers.
-2. **Direct providers**: For direct and subscription providers (Anthropic, OpenAI, etc.), it uploads bounded reconstructed completed turns, including tool execution results exposed by Pi.
-3. **Memory skill**: The `mimir-use` skill allows Pi to query Mimir directly for past sessions, prior decisions, and evidence.
-
-### Installation
+### Install
 
 ```bash
 mimir install --harness pi
 ```
 
-This installs `~/.pi/agent/extensions/mimir.ts` (or `$PI_CODING_AGENT_DIR/extensions/mimir.ts`).
+Restart Pi after installing or updating the extension.
 
-Restart Pi after install or update to activate the extension.
+### How capture works
+
+- **OpenRouter:** traffic routes through Mimir with exact session, repository,
+  and harness metadata.
+- **Direct providers:** completed turns and exposed tool results are uploaded as
+  bounded reconstructed exchanges.
+- **Memory:** the `mimir-use` skill retrieves prior sessions, decisions, and
+  evidence.
 
 ---
 
 ## Oh My Pi (OMP)
 
-Oh My Pi is selected independently under the Pi group during setup.
-
-### How it works
-
-- Mimir installs its adapter at `~/.omp/agent/extensions/mimir.ts` (or the active OMP profile).
-- Activates exact lifecycle heartbeats on the first real turn.
-- Captures OpenRouter plus bounded direct-provider evidence.
-- Idle drafts do not create dashboard sessions.
-
-### Installation
+### Install
 
 ```bash
 mimir install --harness oh-my-pi
@@ -58,4 +49,28 @@ mimir install --harness oh-my-pi
 
 Restart `omp` after install or update.
 
-When OMP has a nonstandard agent home directory, set the `OMP_CODING_AGENT_DIR` environment variable.
+### How capture works
+
+- Capture activates on the first completed turn, so idle drafts create no
+  dashboard session.
+- OpenRouter traffic and bounded direct-provider evidence use the same capture
+  model as Pi.
+- Lifecycle heartbeats keep active sessions current.
+
+## Verify
+
+Complete a turn after restarting the harness, then check its durable receipt:
+
+```bash
+mimir session status <session-id>
+```
+
+<details>
+	<summary>Extension locations</summary>
+
+	Pi installs to `~/.pi/agent/extensions/mimir.ts`. Set
+	`PI_CODING_AGENT_DIR` to use another Pi agent directory.
+
+	Oh My Pi installs to `~/.omp/agent/extensions/mimir.ts` or the active OMP
+	profile. Set `OMP_CODING_AGENT_DIR` for a nonstandard home directory.
+</details>

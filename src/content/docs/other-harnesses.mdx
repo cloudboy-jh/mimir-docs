@@ -4,17 +4,17 @@ description: "Connect Claude Code, Codex, Cursor, and custom tools to Mimir."
 ---
 import HarnessIcon from '../../components/HarnessIcon.astro';
 
-<div class="flex flex-wrap items-center gap-2 mb-6 text-sm text-zinc-400">
-	<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-zinc-800/60 border border-zinc-700/50">
-		<HarnessIcon name="claude-code" size="1.1rem" />
+<div class="harness-list" aria-label="Supported harnesses">
+	<span class="harness-badge">
+		<HarnessIcon name="claude-code" class="product-icon" size="1.75rem" />
 		<strong>Claude Code</strong>
 	</span>
-	<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-zinc-800/60 border border-zinc-700/50">
-		<HarnessIcon name="codex" size="1.1rem" />
+	<span class="harness-badge">
+		<HarnessIcon name="codex" class="product-icon" size="1.75rem" />
 		<strong>Codex</strong>
 	</span>
-	<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-zinc-800/60 border border-zinc-700/50">
-		<HarnessIcon name="cursor" size="1.1rem" />
+	<span class="harness-badge">
+		<HarnessIcon name="cursor" class="product-icon" size="1.75rem" />
 		<strong>Cursor</strong>
 	</span>
 </div>
